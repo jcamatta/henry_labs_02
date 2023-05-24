@@ -7,7 +7,7 @@ import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
 
-
+# Establecemos unos valores basicos para la pagina Dashboard
 st.set_page_config(
     page_title="Dashboard interactivo", # cambia el título de la página
     page_icon=":airplane:", # cambia el icono de la página
@@ -16,26 +16,29 @@ st.set_page_config(
 )
 
 
+# Esta funcion devuelve el dataframe
 @st.cache_data
 def get_df():
     return pd.read_csv('../data/transform/asn_final_v3.csv')
 
-
+# Esta funcion devuelve una array de paises ordenados de forma ascendente
 @st.cache_data
 def get_pais(dataframe):
     return dataframe.pais_accidente.str.title().sort_values(ascending=True).unique()
 
-
+# Similar a la anterior, pero devuelve los continentes.
 @st.cache_data
 def get_continent(dataframe):
     return dataframe.continente.str.title().sort_values(ascending=True).unique()
 
-
+# Filtra el dataframe por las fechas initial_date y final_date
 def filter_by_date(dataframe, initial_date, final_date):
     initial_date, final_date = str(initial_date), str(final_date)
     return dataframe[(dataframe.fecha >= initial_date) & (dataframe.fecha <= final_date)]
 
-
+# Filtra el dataframe segun el diccionario filtrate
+# Filtrate es un diccionario donde cada key es la columna y el value es el valor por el que se debe filtrar.
+# Si value es una lista, se emplea isin
 def filter_by_dict(dataframe, filtrate):
     for col, value in filtrate.items():
         if isinstance(value, list):
@@ -47,6 +50,9 @@ def filter_by_dict(dataframe, filtrate):
             dataframe = dataframe[dataframe[col] == value]
     return dataframe
 
+# Funciones que computan los KPIS
+# Cada compute_n_kpi requiere del dataframe sin filtrar (exceptuando por el rango de fecha) y el dataframe_filtrado ya que
+# se compara el valor particular de un pais/continente respecto del general. Label es el nombre asociado a la metrica.
 
 def compute_1_kpi(dataframe, dataframe_filtrado, label):
     """La tasa de mortalidad mide el numero de fallecidos respecto del total de accidentes."""
@@ -113,6 +119,8 @@ def compute_5_kpi(dataframe, dataframe_filtrado, label):
     value, delta = [round(x, 2) for x in [value, delta]]
     return dict(label=label, value=value, delta=delta)
 
+# Esta funcion devuelve el output de cada compute_n_kpi.
+
 def compute_kpis(dataframe, dataframe_filtrado, labels, num_kpis):
     output = []
     kpi_func = [compute_1_kpi, compute_2_kpi, compute_3_kpi, compute_4_kpi, compute_5_kpi]
@@ -133,7 +141,6 @@ paises = get_pais(original)
 continentes = get_continent(original)
 
 df = original.copy()
-
 
 st.markdown("<h1 style='text-align: center; color: grey;'>EVOLUCION Y ACTUALIDAD DE LOS ACCIDENTES AEREOS</h1>", unsafe_allow_html=True)
 st.markdown('')
@@ -175,6 +182,8 @@ st.divider()
 
 st.markdown("<h3 style='text-align: left; color: grey;'>KPIs</h1>", unsafe_allow_html=True)
 
+dataframe_filtrado = filter_by_dict(df, filtrar)
+
 # CONSTRUYE, COMPUTA Y GRAFICA LOS KPIS
 num_kpis = 5
 kpis_cols = st.columns(num_kpis)
@@ -182,9 +191,7 @@ kpis_label = ['Tasa de mortalidad', 'Sensibilidad de pasajeros',
               'Media de variacion anual', 'Variacion anual ponderada',
               'Distancia temporal media']
 
-dataframe_filtrado = filter_by_dict(df, filtrar)
 kpis_outputs = compute_kpis(df, dataframe_filtrado, kpis_label, num_kpis)
-
 for i in range(num_kpis):
     kpi = kpis_cols[i]
     kpi.metric(**kpis_outputs[i])
@@ -279,6 +286,8 @@ with graph_cols[0].expander('Explicacion'):
 
 
 # CUARTO GRAFICO
+# El cuarto grafico contiene 4 metricas asociadas a cada pais/continente
+# El proceso es el mismo que el empleado para los KPIs.
 
 graph_cols[1].markdown('#### **Metricas**')
 
@@ -361,7 +370,10 @@ st.markdown("<h3 style='text-align: left; color: grey;'>MAPA MUNDIAL</h1>", unsa
 st.write('Se visualiza cada pais involucrado en un accidente y se lo grafica '
          'segun su cantidad de accidentes o de fallecidos.')
 
-#which_filter
+
+# Esta funcion devuelve un fig, el cual es el grafico con el mapa que incluye los paises o continentes.
+# La figura se puede modificar de 3 formas:
+# 1. Rango de años | 2. Si mostrar data por pais o por continente | 3. Si mostrar data segun cant. de accidentes o cant. de fallecidos.
 
 @st.cache_data
 def geo_plot(dataframe, year, by_country, by_accident):
@@ -394,7 +406,7 @@ def geo_plot(dataframe, year, by_country, by_accident):
 
     return fig
 
-
+# Esta funcion auxiliar se utiliza para modificar los valores que el usuario ve al interactuar con el radio button.
 def format_options(option):
     if option == True:
         return 'Num. Accidentes'
