@@ -1,0 +1,44 @@
+'fecha': La fecha en la que ocurrió el accidente.
+'hora': La hora en la que ocurrió el accidente.
+'operator': El operador del vuelo.
+'total_personas': El número total de personas a bordo del vuelo.
+'cant_pasajeros': El número de pasajeros a bordo del vuelo.
+'cant_tripulantes': El número de tripulantes a bordo del vuelo.
+'total_fallecidos': El número total de personas fallecidas en el accidente.
+'pasajeros_fallecidos': El número de pasajeros fallecidos en el accidente.
+'tripulantes_fallecidos': El número de tripulantes fallecidos en el accidente.
+'pais_accidente': El país donde ocurrió el accidente.
+'estado_accidente': El estado/región/aeropuerto dentro del país donde ocurrió el accidente.
+'pais_salida': El país de origen del vuelo.
+'estado_salida': El estado o región de origen del vuelo.
+'pais_destino': El país de destino del vuelo.
+'estado_destino': El estado/región/aeropuerto de destino del vuelo.
+'primer_vuelo': El primer vuelo registrado de la aeronave involucrada en el accidente.
+'aircraft_damage': El nivel de daño sufrido por la aeronave en el accidente.
+'razon': La causa o razón principal del accidente.
+'fase': La fase del vuelo en la que ocurrió el accidente.
+'narrative': El relato o descripción del accidente.
+'hora_minuto': La hora en minutos desde la medianoche en la que ocurrió el accidente.
+'minuto': El minuto específico en el que ocurrió el accidente.
+'parte_del_dia': La parte del día en la que ocurrió el accidente (por ejemplo, mañana, tarde, noche).
+'year': El año en el que ocurrió el accidente.
+'trimestre': El trimestre en el que ocurrió el accidente.
+'mes': El mes en el que ocurrió el accidente.
+'dia': El día del mes en el que ocurrió el accidente.
+'edad_avion': La diferencia entre el año del primer_vuelo y el año del accidente.
+'continente': El continente donde ocurrió el accidente.
+'iso_code': El código ISO del país donde ocurrió el accidente.
+'ruta_pais': La ruta del vuelo en términos de países, desde el origen hasta el destino.
+'ruta_estado': La ruta del vuelo en términos de estados o regiones, desde el origen hasta el destino.
+'victimas': Indica si hubo victimas fatales o no en el accidente. True si es Si, False caso contrario.
+'ratio': La proporción de personas fallecidas con respecto al número total de personas a bordo.
+'pasajeros_vivos': El número de pasajeros que sobrevivieron al accidente.
+'tripulantes_vivos': El número de tripulantes que sobrevivieron al accidente.
+'total_vivos': El número total de personas que sobrevivieron al accidente.
+'top3_3gram': Las tres combinaciones de tres palabras más comunes en la columna 'narrative'.
+'top3_2gram': Las tres combinaciones de dos palabras más comunes en la columna 'narrative'.
+'top3_1gram': Las tres palabras más comunes en la columna 'narrative'.
+'lat': La latitud del lugar donde ocurrió el accidente.
+'lon': La longitud del lugar donde ocurrió el accidente.
+'lon_cont': La longitud del lugar donde ocurrió el accidente a nivel de continente.
+'lat_cont': La latitud del lugar donde ocurrió el accidente a nivel de continente.
